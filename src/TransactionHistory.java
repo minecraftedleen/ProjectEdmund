@@ -1,9 +1,16 @@
 public class TransactionHistory {
-    private String history = "";
+    private static String history = "";
 
     public TransactionHistory() {}
 
-    public void addHistory(String h) {
+    public static void addHistory(String h) {
         history += "\n" + h;
+    }
+
+    public static String getHistory() {
+        if (history.equals("")) {
+            return "No transactions";
+        }
+        return history;
     }
 }

@@ -17,4 +17,8 @@ public class Account {
         return balance;
     }
 
+    public void changeBalance(double num) {
+        balance += num;
+    }
+
 }

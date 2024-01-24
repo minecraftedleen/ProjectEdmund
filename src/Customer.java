@@ -10,4 +10,6 @@ public class Customer {
     public void setPIN(int p) {
         PIN = p;
     }
+
+    public int getPIN() {return PIN;}
 }
