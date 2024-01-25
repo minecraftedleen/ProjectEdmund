@@ -130,6 +130,7 @@ public class ATM {
                     receipt = ConsoleUtility.GREEN + "$" + withdrawing + " successfully withdrawn from " + accountWith.getName() +  " as " + twenties + " $20 bills and " + fives + " $5 bills" + ConsoleUtility.RESET;
                 }
             } else {
+                accountWith.changeBalance(withdrawing * -1);
                 receipt = ConsoleUtility.GREEN + "$" + withdrawing + " successfully withdrawn from " + accountWith.getName() +  " as " + twenties + " $20 bills" + ConsoleUtility.RESET;
             }
         }
@@ -237,7 +238,6 @@ public class ATM {
             }
             person.setPIN(newPIN);
             receipt = ConsoleUtility.GREEN + "Successfully changed PIN" + ConsoleUtility.RESET;
-            System.out.println(receipt);
             TransactionHistory.addHistory("S", receipt);
         }
         System.out.println(receipt);
