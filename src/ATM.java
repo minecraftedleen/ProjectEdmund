@@ -76,6 +76,7 @@ public class ATM {
                 } else {
                     System.out.println("Invalid option, try again");
                 }
+            }
                 while (withdrawing % 5 != 0 || withdrawing < accountWith.getBalance()) {
                     System.out.println("How much would you like to withdraw?");
                     System.out.println("Must be a multiple of 5:");
@@ -88,13 +89,13 @@ public class ATM {
                 }
 
             }
-        }
+
         private void option2 () {
             int option2 = 0;
             double depositing = 0;
             String receipt = "";
             Account accountDep = null;
-            while (option2 != 1 || option2 != 2) {
+            while (option2 > 2 || option2 < 1) {
                 System.out.println("Choose an Account");
                 System.out.println("Type 1 for Savings Account");
                 System.out.println("Type 2 for Checking Account");
