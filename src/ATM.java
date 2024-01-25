@@ -1,18 +1,22 @@
 import java.util.Scanner;
 public class ATM {
+    //instance variables
     private Account savings = null;
     private Account checking = null;
-    Customer person = null;
+    private Customer person = null;
     Scanner scan = new Scanner(System.in);
 
+    //constructor
     public ATM() {
     }
 
+    //starts the ATM
     public void start() {
         welcome();
         options();
     }
 
+    //when the ATM starts
     public void welcome() {
         System.out.println("--------------------");
         System.out.println("Welcome!");
@@ -26,6 +30,7 @@ public class ATM {
         System.out.println("Savings and Checking accounts created successfully");
     }
 
+    //gives the customer options to chose from, loops until 7 is chosen
     public void options() {
         int checkPIN = -99999;
         while (checkPIN != person.getPIN()) {
@@ -69,6 +74,7 @@ public class ATM {
         }
     }
 
+    //for withdrawing money from an account
     private void option1() {
         int option2 = 0;
         int withdrawing = -1;
@@ -132,6 +138,7 @@ public class ATM {
 
     }
 
+    //for depositing money into an account
     private void option2() {
         int option2 = 0;
         double depositing = 0;
@@ -158,6 +165,7 @@ public class ATM {
         TransactionHistory.addHistory("A", receipt);
     }
 
+    //for transferring money between accounts
     private void option3() {
         int option2 = 0;
         double transfer = 0;
@@ -195,18 +203,20 @@ public class ATM {
 
     }
 
-
+    //for viewing account balances
     private void option4() {
         System.out.println("Savings account balance: $" + savings.getBalance());
         System.out.println("Checking account balance: $" + checking.getBalance());
         TransactionHistory.addHistory("S", "Viewed balances of Savings Account and Checking Account");
     }
 
+    //for viewing the transaction history
     private void option5() {
         System.out.println(TransactionHistory.getHistory());
         TransactionHistory.addHistory("S", "Viewed transaction history");
     }
 
+    //for changing the PIN
     private void option6() {
         int checkPIN = -99999;
         int newPIN = person.getPIN();
