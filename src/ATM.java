@@ -38,7 +38,7 @@ public class ATM {
             checkPIN = scan.nextInt();
             if (checkPIN != person.getPIN()) {
                 System.out.println("Incorrect PIN!");
-                TransactionHistory.addHistory("S", "Failed attempt to enter accounts");
+                TransactionHistory.addHistory("S", ConsoleUtility.RED + "⚠Failed attempt to enter accounts⚠" + ConsoleUtility.RESET);
             }
         }
         int option = 0;
