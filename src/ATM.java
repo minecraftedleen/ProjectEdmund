@@ -14,7 +14,7 @@ public class ATM {
     }
 
     public void welcome() {
-        System.out.println("--------");
+        System.out.println("--------------------");
         System.out.println("Welcome!");
         System.out.print("Enter your name: ");
         String name = scan.nextLine();
@@ -92,34 +92,39 @@ public class ATM {
         }
 
         System.out.println("How much would you like to withdraw?");
-        System.out.println("Must be a multiple of 5: ");
+        System.out.print("Must be a multiple of 5: ");
         withdrawing = scan.nextInt();
         if (withdrawing > accountWith.getBalance()) {
-            System.out.println("Insufficient funds!");
+            System.out.println(ConsoleUtility.RED + "Insufficient funds!" + ConsoleUtility.RESET);
+            receipt = ConsoleUtility.RED + "Failed to withdraw from " + accountWith.getName() + " due to insufficient funds" + ConsoleUtility.RESET;
         } else if (withdrawing % 5 != 0) {
-            System.out.println("Not a multiple of 5!");
-        }
-        temp = withdrawing;
-        System.out.print("How many $20 bills would you like?: ");
-        twenties = scan.nextInt();
-        temp -= 20 * twenties;
-        if (temp < 0) {
-            System.out.println("Insufficient funds!");
-            receipt = "Failed to withdraw from " + accountWith.getName() + " due to insufficient funds";
-        } else if (temp != 0) {
-            System.out.println("$" + temp + " remaining to withdraw");
-            System.out.println("How many $5 bills would you like?");
-            fives = scan.nextInt();
-            temp -= 5 * fives;
+            System.out.println(ConsoleUtility.RED + "Not a multiple of 5!" + ConsoleUtility.RESET);
+            receipt = ConsoleUtility.RED + "Failed to withdraw from " + accountWith.getName() + " due to invalid amount request" + ConsoleUtility.RESET;
+        } else {
+            temp = withdrawing;
+            System.out.print("How many $20 bills would you like?: ");
+            twenties = scan.nextInt();
+            temp -= 20 * twenties;
             if (temp < 0) {
-                System.out.println("Insufficient funds!");
-                receipt = "Failed to withdraw from " + accountWith.getName() + " due to insufficient funds";
+                System.out.println(ConsoleUtility.RED + "Insufficient funds!" + ConsoleUtility.RESET);
+                receipt = ConsoleUtility.RED + "Failed to withdraw from " + accountWith.getName() + " due to insufficient funds" + ConsoleUtility.RESET;
             } else if (temp != 0) {
-                System.out.println("Not all money has been withdrawn!");
-                receipt = "Failed to withdraw from " + accountWith.getName() + " due to requested bills not matching requested money";
+                System.out.println("$" + temp + " remaining to withdraw");
+                System.out.print("How many $5 bills would you like?: ");
+                fives = scan.nextInt();
+                temp -= 5 * fives;
+                if (temp < 0) {
+                    System.out.println(ConsoleUtility.RED + "Insufficient funds!" + ConsoleUtility.RESET);
+                    receipt = ConsoleUtility.RED + "Failed to withdraw from " + accountWith.getName() + " due to insufficient funds" + ConsoleUtility.RESET;
+                } else if (temp != 0) {
+                    System.out.println(ConsoleUtility.RED + "Not all money has been withdrawn!" + ConsoleUtility.RESET);
+                    receipt = ConsoleUtility.RED + "Failed to withdraw from " + accountWith.getName() + " due to requested bills not matching requested money" + ConsoleUtility.RESET;
+                } else {
+                    accountWith.changeBalance(withdrawing * -1);
+                    receipt = ConsoleUtility.GREEN + "$" + withdrawing + " successfully withdrawn from " + accountWith.getName() +  " as " + twenties + " $20 bills and " + fives + " $5 bills" + ConsoleUtility.RESET;
+                }
             } else {
-                accountWith.changeBalance(withdrawing * -1);
-                receipt = "$" + withdrawing + " successfully withdrawn from " + accountWith.getName();
+                receipt = ConsoleUtility.GREEN + "$" + withdrawing + " successfully withdrawn from " + accountWith.getName() +  " as " + twenties + " $20 bills" + ConsoleUtility.RESET;
             }
         }
         System.out.println(receipt);
@@ -145,10 +150,10 @@ public class ATM {
                 System.out.println("Invalid option, try again");
             }
         }
-        System.out.println("How much would you like to deposit?");
+        System.out.print("How much would you like to deposit?: ");
         depositing = scan.nextDouble();
         accountDep.changeBalance(depositing);
-        receipt = "Successfully deposited $" + depositing + " into " + accountDep.getName();
+        receipt = ConsoleUtility.GREEN + "Successfully deposited $" + depositing + " into " + accountDep.getName() + ConsoleUtility.RESET;
         System.out.println(receipt);
         TransactionHistory.addHistory("A", receipt);
     }
@@ -175,20 +180,18 @@ public class ATM {
             }
         }
         System.out.println("Transferring money from " + fromAccount.getName() + " to " + toAccount.getName());
-        System.out.println("How much would you like to transfer?");
+        System.out.print("How much would you like to transfer?: ");
         transfer = scan.nextDouble();
         if (fromAccount.getBalance() < transfer) {
-            System.out.println("Insufficient funds!");
-            receipt = "Failed to transfer money from " + fromAccount.getName() + " to " + toAccount.getName() + " due to insufficient funds";
-            System.out.println(receipt);
-            TransactionHistory.addHistory("A", receipt);
+            System.out.println(ConsoleUtility.RED + "Insufficient funds!" + ConsoleUtility.RESET);
+            receipt = ConsoleUtility.RED + "Failed to transfer money from " + fromAccount.getName() + " to " + toAccount.getName() + " due to insufficient funds" + ConsoleUtility.RESET;
         } else {
             fromAccount.changeBalance(transfer * -1);
             toAccount.changeBalance(transfer);
-            receipt = "Successfully transferred $" + transfer + " from "  + fromAccount.getName() + " to " + toAccount.getName();
-            System.out.println(receipt);
-            TransactionHistory.addHistory("A", receipt);
+            receipt = ConsoleUtility.GREEN + "Successfully transferred $" + transfer + " from "  + fromAccount.getName() + " to " + toAccount.getName() + ConsoleUtility.RESET;
         }
+        System.out.println(receipt);
+        TransactionHistory.addHistory("A", receipt);
 
     }
 
@@ -208,26 +211,26 @@ public class ATM {
         int checkPIN = -99999;
         int newPIN = person.getPIN();
         String receipt;
-        System.out.println("Enter your PIN: ");
+        System.out.print("Enter your PIN: ");
         checkPIN = scan.nextInt();
         if (checkPIN != person.getPIN()) {
-            System.out.println("Incorrect PIN!");
-            receipt = "Failed to change PIN, incorrect PIN entered";
-            System.out.print(receipt);
+            System.out.println(ConsoleUtility.RED + "Incorrect PIN!" + ConsoleUtility.RESET);
+            receipt = ConsoleUtility.RED + "Failed to change PIN, incorrect PIN entered" + ConsoleUtility.RESET;
             TransactionHistory.addHistory("S", receipt);
         } else {
             while (newPIN == person.getPIN()) {
-                System.out.println("What do you want to change your PIN to?:");
+                System.out.print("What do you want to change your PIN to?: ");
                 newPIN = scan.nextInt();
                 if (newPIN == person.getPIN()) {
                     System.out.println("New PIN can't be same as old PIN, try again");
                 }
             }
             person.setPIN(newPIN);
-            receipt = "Successfully changed PIN";
+            receipt = ConsoleUtility.GREEN + "Successfully changed PIN" + ConsoleUtility.RESET;
             System.out.println(receipt);
             TransactionHistory.addHistory("S", receipt);
         }
+        System.out.println(receipt);
 
     }
 }
